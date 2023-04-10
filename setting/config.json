@@ -1,0 +1,16 @@
+{
+  "name": "大学生财务管理系统",
+  "mode": "",
+  "port": "",
+  "jwt_key": "",
+  "log_config": {
+    "path": ""
+  },
+  "mysql_config": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "db": "",
+    "password": ""
+  }
+}
