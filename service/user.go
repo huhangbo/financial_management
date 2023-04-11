@@ -5,7 +5,7 @@ import (
 	"financial_management/setting"
 )
 
-func MGetUserByID(userIDs []int64) []*model.User {
+func MGetUserByID(userIDs []int) []*model.User {
 	var (
 		db       = setting.GetMySQL()
 		userList []*model.User
@@ -14,7 +14,7 @@ func MGetUserByID(userIDs []int64) []*model.User {
 	return userList
 }
 
-func GetUserByID(userID int64) *model.User {
+func GetUserByID(userID int) *model.User {
 	var (
 		db   = setting.GetMySQL()
 		user *model.User
@@ -25,7 +25,7 @@ func GetUserByID(userID int64) *model.User {
 	return nil
 }
 
-func IsUserExist(userID int64) bool {
+func IsUserExist(userID int) bool {
 	var (
 		db   = setting.GetMySQL()
 		user *model.User

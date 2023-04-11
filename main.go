@@ -1,18 +1,19 @@
-package financial_management
+package main
 
 import (
 	"financial_management/setting"
-	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/gin-gonic/gin"
 )
 
 var (
-	h *server.Hertz
+	h *gin.Engine
 )
 
 func main() {
-	h = server.Default()
+	gin.SetMode(setting.Config.Mode)
+	h = gin.Default()
+	setting.LoadConfig("./setting/config.json")
+
 	initRouter()
-	config := setting.LoadConfig("./setting/config.json")
-	setting.InitMysql(config.SqlConfig)
-	h.Spin()
+	panic(h.Run())
 }

@@ -1,24 +1,22 @@
 package handlers
 
 import (
-	"context"
-	"encoding/json"
 	"financial_management/model"
-	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/gin-gonic/gin"
 )
 
 type UserLoginRequest struct {
 	model.User
 }
 
-func UserLogin(context context.Context, c *app.RequestContext) {
+func UserLogin(c *gin.Context) {
 	var (
 		tmpUser *model.User
 		reqBody *UserLoginRequest
 	)
-	body, _ := c.Body()
-	if err := json.Unmarshal(body, &reqBody); err != nil {
+
+	if err := c.BindJSON(&reqBody); err != nil {
 		c.JSON(consts.StatusBadRequest, tmpUser)
 		return
 	}

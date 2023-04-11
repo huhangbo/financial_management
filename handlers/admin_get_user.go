@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"context"
-	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/gin-gonic/gin"
 )
 
-func AdminGetUser(context context.Context, c *app.RequestContext) {
+func AdminGetUser(c *gin.Context) {
 
 }

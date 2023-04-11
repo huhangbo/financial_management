@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"context"
-	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/gin-gonic/gin"
 )
 
-func UserUpdateInfo(context context.Context, c *app.RequestContext) {
+func UserUpdateInfo(c *gin.Context) {
 
 }

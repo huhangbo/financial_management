@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"context"
-	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/gin-gonic/gin"
 )
 
-func AdminDeleteUser(context context.Context, c *app.RequestContext) {
+func AdminDeleteUser(c *gin.Context) {
 
 }

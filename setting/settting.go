@@ -27,18 +27,18 @@ type MySQLConfig struct {
 	Password string `json:"password"`
 }
 
+var (
+	Config *AppConfig
+)
+
 // 从配置文件中载入json字符串
-func LoadConfig(path string) *AppConfig {
-	var (
-		config *AppConfig
-	)
+func LoadConfig(path string) {
 	buf, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Panicln("load config failed: ", err)
 	}
-	err = json.Unmarshal(buf, &config)
+	err = json.Unmarshal(buf, &Config)
 	if err != nil {
 		log.Panicln("decode config file failed:", string(buf), err)
 	}
-	return config
 }
