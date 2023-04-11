@@ -5,32 +5,68 @@ import (
 	"financial_management/setting"
 )
 
-func MGetUserByID(userIDs []int) []*model.User {
+func UpdateUser(user *model.User) error {
+	var (
+		db = setting.GetMySQL()
+	)
+	if err := db.Save(&user).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteUser(userIDs []int) error {
+	var (
+		db       = setting.GetMySQL()
+		UserList []*model.User
+	)
+	if err := db.Delete(&UserList, userIDs).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetAllUser() []*model.User {
 	var (
 		db       = setting.GetMySQL()
 		userList []*model.User
 	)
-	db.Find(&userList)
+	if err := db.Find(&userList).Error; err != nil {
+		return nil
+	}
 	return userList
+}
+
+func GetUserByTelephone(telephone int) *model.User {
+	var (
+		db   = setting.GetMySQL()
+		user *model.User
+	)
+	if err := db.Where("telephone = ?", telephone).First(&user); err != nil {
+		return nil
+	}
+	return user
 }
 
 func GetUserByID(userID int) *model.User {
 	var (
 		db   = setting.GetMySQL()
-		user *model.User
+		user = &model.User{
+			UserID: userID,
+		}
 	)
-	if err := db.First(&user, userID).Error; err != nil {
-		return user
+	if err := db.First(&user); err != nil {
+		return nil
 	}
-	return nil
+	return user
 }
 
-func IsUserExist(userID int) bool {
+func IsUserExist(telephone int) bool {
 	var (
 		db   = setting.GetMySQL()
 		user *model.User
 	)
-	if err := db.First(&user, userID).Error; err != nil {
+	if err := db.Where("telephone = ?", telephone).First(&user); err != nil {
 		return false
 	}
 	return true

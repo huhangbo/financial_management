@@ -7,17 +7,24 @@ import (
 
 func initRouter() {
 	h.Use(middleware.Cors())
+
 	userGroup()
+
 	adminGroup()
+
 	categoryGroup()
+
 	billGroup()
+
 	budgetGroup()
+
 	notesGroup()
+
+	newsGroup()
 }
 
 func userGroup() {
 	group := h.Group("/user")
-
 	{
 		group.POST("/register", handlers.UserRegister)
 		group.POST("/login", handlers.UserLogin)
@@ -28,12 +35,11 @@ func userGroup() {
 
 func adminGroup() {
 	group := h.Group("/admin")
-	group.Use(middleware.Auth())
 	{
 		group.POST("/login", handlers.AdminLogin)
-		group.GET("/user/get", handlers.AdminGetUser)
-		group.POST("/user/delete", handlers.AdminDeleteUser)
-		group.POST("/user/add", handlers.AdminAddUser)
+		group.GET("/user/get", handlers.AdminGetUser).Use(middleware.Auth())
+		group.POST("/user/delete", handlers.AdminDeleteUser).Use(middleware.Auth())
+		group.POST("/user/add", handlers.AdminAddUser).Use(middleware.Auth())
 	}
 }
 
@@ -78,5 +84,16 @@ func notesGroup() {
 		group.POST("/add", handlers.NotesAdd)
 		group.POST("/update", handlers.NotesUpdate)
 		group.POST("/delete", handlers.NotesDelete)
+	}
+}
+
+func newsGroup() {
+	group := h.Group("/news")
+	group.Use(middleware.Auth())
+	{
+		group.POST("/get", handlers.NewsGet)
+		group.POST("/add", handlers.NewsAdd)
+		group.POST("/update", handlers.NewsUpdate)
+		group.POST("/delete", handlers.NewsDelete)
 	}
 }

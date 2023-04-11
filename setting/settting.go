@@ -13,6 +13,7 @@ type AppConfig struct {
 	JwtKey    string       `json:"jwt_key"`
 	LogConfig *LogConfig   `json:"log_config"`
 	SqlConfig *MySQLConfig `json:"mysql_config"`
+	Admin     *AdminConf   `json:"admin"`
 }
 
 type LogConfig struct {
@@ -25,6 +26,11 @@ type MySQLConfig struct {
 	User     string `json:"user"`
 	DB       string `json:"db"`
 	Password string `json:"password"`
+}
+
+type AdminConf struct {
+	ID       int    `json:"ID"`
+	Password string `json:"Password"`
 }
 
 var (

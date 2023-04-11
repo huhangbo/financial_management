@@ -2,26 +2,29 @@ package handlers
 
 import (
 	"financial_management/consts"
+	"financial_management/model"
 	"financial_management/service"
-	"financial_management/setting"
 	"financial_management/util"
 	"github.com/gin-gonic/gin"
 )
 
-func AdminDeleteUser(c *gin.Context) {
+func UserUpdateInfo(c *gin.Context) {
 	var (
-		userIDs []int
+		reqUser *model.User
 		uid     = c.GetInt(consts.UserID)
 	)
-	if err := c.BindJSON(&userIDs); err != nil {
+	if err := c.BindJSON(&reqUser); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	if uid != setting.Config.Admin.ID {
-		util.Response(c, consts.PermissionErrorCode, nil)
+	tmpUser := service.GetUserByID(uid)
+	if tmpUser == nil {
+		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	if err := service.DeleteUser(userIDs); err != nil {
+	tmpUser.UserName = reqUser.UserName
+	tmpUser.Telephone = reqUser.Telephone
+	if err := service.UpdateUser(tmpUser); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}

@@ -26,8 +26,7 @@ func Auth() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		StuId := claim.StuId
-		c.Set("stuId", StuId)
+		c.Set("user_id", claim.UserId)
 		return
 	}
 }
@@ -38,13 +37,13 @@ var (
 )
 
 type Claims struct {
-	StuId string
+	UserId int
 	jwt.StandardClaims
 }
 
-func GenerateToken(stuId string) string {
+func GenerateToken(userID int) string {
 	newClaims := Claims{
-		stuId, jwt.StandardClaims{
+		userID, jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenExpireDuration).Unix(),
 			Issuer:    "flying",
 		},
