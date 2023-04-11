@@ -17,6 +17,6 @@ type Bill struct {
 	CategoryID int       `json:"category_id"`
 	Remark     string    `json:"remark"`
 	Category   *Category `json:"category"`
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }

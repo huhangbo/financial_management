@@ -7,28 +7,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BillDelete(c *gin.Context) {
+func NotesDelete(c *gin.Context) {
 	var (
-		billIDs []int
-		userID  = c.GetInt(consts.UserID)
+		notesIDs []int
+		userID   = c.GetInt(consts.UserID)
 	)
-	if err := c.BindJSON(&billIDs); err != nil {
+	if err := c.BindJSON(&notesIDs); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	billList := service.GetBillByIDs(billIDs)
-	if billList == nil {
+	notesList := service.GetNotesByIDs(notesIDs)
+	if notesList == nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	for _, bill := range billList {
-		if bill.UserID != userID {
+	for _, note := range notesList {
+		if note.UserID != userID {
 			util.Response(c, consts.PermissionErrorCode, nil)
 			return
 		}
 	}
-
-	if err := service.DeleteBill(billIDs); err != nil {
+	if err := service.DeleteNotes(notesIDs); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}

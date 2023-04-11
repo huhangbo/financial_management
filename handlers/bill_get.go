@@ -46,14 +46,14 @@ func BillGet(c *gin.Context) {
 	} else {
 		billTypeList = append(billTypeList, req.BillType)
 	}
-	billList, err := service.GetBillByTime(billTypeList, beginTime, endTime, req.Limit, req.Offset)
+	billList, err := service.GetBillByTime(billTypeList, beginTime, endTime, req.Limit+1, req.Offset)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
 	if len(billList) > req.Limit {
 		resp.HasMore = true
-		billList = billList[:req.Limit-1]
+		billList = billList[:req.Limit]
 	}
 	for _, bill := range billList {
 		categoryIDs = append(categoryIDs, bill.CategoryID)
