@@ -26,11 +26,17 @@ func DeleteUser(userIDs []int) error {
 	return nil
 }
 
-func GetAllUser() []*model.User {
+func GetAllUser(username string) []*model.User {
 	var (
 		db       = setting.GetMySQL()
 		userList []*model.User
 	)
+	if len(username) == 0 {
+		db.Find(&userList)
+	} else {
+		query := "%" + username + "%"
+		db.Where("username like = ?", query).Find(&userList)
+	}
 	if err := db.Find(&userList).Error; err != nil {
 		return nil
 	}

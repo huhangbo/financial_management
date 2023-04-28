@@ -10,13 +10,14 @@ import (
 
 func AdminGetUser(c *gin.Context) {
 	var (
-		uid = c.GetInt(consts.UserID)
+		uid  = c.GetInt(consts.UserID)
+		name = c.Query("username")
 	)
 	if uid != setting.Config.Admin.ID {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
-	userList := service.GetAllUser()
+	userList := service.GetAllUser(name)
 	if userList == nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return

@@ -33,14 +33,15 @@ func MGetCategory(categoryIDs []int) (map[int]*model.Category, error) {
 	return categoryMap, nil
 }
 
-func GetCategoryList() ([]*model.Category, error) {
+func GetCategoryList(billType model.BillType) ([]*model.Category, error) {
 	var (
 		db           = setting.GetMySQL()
 		categoryList []*model.Category
 	)
-	result := db.Find(&categoryList)
-	if result.Error != nil {
-		return nil, result.Error
+	if billType != 0 {
+		db.Where("bill_type = ?", billType).Find(&categoryList)
+	} else {
+		db.Find(&categoryList)
 	}
 	return categoryList, nil
 }

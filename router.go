@@ -28,7 +28,7 @@ func userGroup() {
 	{
 		group.POST("/register", handlers.UserRegister)
 		group.POST("/login", handlers.UserLogin)
-		group.POST("/update/password").Use(middleware.Auth())
+		group.POST("/update/password", handlers.UpdatePassword).Use(middleware.Auth())
 		group.POST("/update/info", handlers.UserUpdateInfo).Use(middleware.Auth())
 	}
 }
