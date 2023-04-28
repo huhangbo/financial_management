@@ -40,6 +40,8 @@ func adminGroup() {
 		group.GET("/user/get", handlers.AdminGetUser).Use(middleware.Auth())
 		group.POST("/user/delete", handlers.AdminDeleteUser).Use(middleware.Auth())
 		group.POST("/user/add", handlers.AdminAddUser).Use(middleware.Auth())
+		group.POST("/user/update", handlers.UserUpdateInfo).Use(middleware.Auth())
+		group.POST("/user/password", handlers.UpdatePassword).Use(middleware.Auth())
 	}
 }
 

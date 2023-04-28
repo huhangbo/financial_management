@@ -28,7 +28,7 @@ func UpdatePassword(c *gin.Context) {
 
 	if uid != setting.Config.Admin.ID {
 		if uid != req.UserID {
-			util.Response(c, consts.ParamErrorCode, nil)
+			util.Response(c, consts.PermissionErrorCode, nil)
 			return
 		}
 		if err := bcrypt.CompareHashAndPassword([]byte(tmpUser.Password), []byte(*req.OldPassword)); err != nil {
