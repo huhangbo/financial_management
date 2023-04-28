@@ -32,7 +32,10 @@ func BillGet(c *gin.Context) {
 		req          *BillGetReq
 		resp         = &BillGetResp{}
 		billTypeList []model.BillType
+		billList     []*model.Bill
 		categoryIDs  []int
+		word         = c.Query("word")
+		err          error
 	)
 	if err := c.BindJSON(&req); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
@@ -46,7 +49,12 @@ func BillGet(c *gin.Context) {
 	} else {
 		billTypeList = append(billTypeList, req.BillType)
 	}
-	billList, err := service.GetBillByTime(billTypeList, beginTime, endTime, req.Page, req.Limit)
+	if len(word) == 0 {
+		billList, err = service.GetBillByTime(billTypeList, beginTime, endTime, req.Page, req.Limit)
+	} else {
+		billList, err = service.SearchBillByTime(billTypeList, word, beginTime, endTime, req.Page, req.Limit)
+	}
+
 	count := service.GetBillCount(billTypeList, beginTime, endTime)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)

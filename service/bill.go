@@ -82,3 +82,17 @@ func GetBillCount(billTypeList []model.BillType, beginTime, endTime time.Time) i
 	}
 	return int(count)
 }
+
+func SearchBillByTime(billTypeList []model.BillType, word string, beginTime, endTime time.Time, page int, limit int) ([]*model.Bill, error) {
+	var (
+		db       = setting.GetMySQL()
+		billList []*model.Bill
+		query    = "%s" + word + "%s"
+	)
+
+	offset := (page - 1) * limit
+	if err := db.Where("remark LIKE ? AND bill_type IN ? AND creat_at Between ? AND ?", query, billTypeList, beginTime, endTime).Find(&billList).Limit(limit).Offset(offset).Error; err != nil {
+		return nil, err
+	}
+	return billList, nil
+}
