@@ -17,14 +17,14 @@ type BillGetReq struct {
 	EndYear    int            `json:"end_year"`
 	EndMouth   int            `json:"end_mouth"`
 	EndDay     int            `json:"end_day"`
-	Offset     int            `json:"offset"`
+	Page       int            `json:"page"`
 	Limit      int            `json:"limit"`
 }
 
 type BillGetResp struct {
-	BillList   []*model.Bill `json:"bill_list"`
-	NextOffset int           `json:"next_offset"`
-	HasMore    bool          `json:"has_more"`
+	BillList  []*model.Bill `json:"bill_list"`
+	Total     int           `json:"total"`
+	TotalPage int           `json:"total_page"`
 }
 
 func BillGet(c *gin.Context) {
@@ -46,14 +46,11 @@ func BillGet(c *gin.Context) {
 	} else {
 		billTypeList = append(billTypeList, req.BillType)
 	}
-	billList, err := service.GetBillByTime(billTypeList, beginTime, endTime, req.Limit+1, req.Offset)
+	billList, err := service.GetBillByTime(billTypeList, beginTime, endTime, req.Page, req.Limit)
+	count := service.GetBillCount(billTypeList, beginTime, endTime)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
-	}
-	if len(billList) > req.Limit {
-		resp.HasMore = true
-		billList = billList[:req.Limit]
 	}
 	for _, bill := range billList {
 		categoryIDs = append(categoryIDs, bill.CategoryID)
@@ -67,6 +64,7 @@ func BillGet(c *gin.Context) {
 		bill.Category = categoryMap[bill.CategoryID]
 	}
 	resp.BillList = billList
-	resp.NextOffset = req.Offset + req.Limit
+	resp.Total = count
+	resp.TotalPage = (count-1)/req.Limit + 1
 	util.Response(c, consts.SuccessCode, resp)
 }
