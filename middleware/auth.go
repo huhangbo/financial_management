@@ -32,7 +32,6 @@ func Auth() gin.HandlerFunc {
 }
 
 var (
-	jwtKey              = []byte(setting.Config.JwtKey)
 	tokenExpireDuration = time.Hour * 24 * 7
 )
 
@@ -49,14 +48,14 @@ func GenerateToken(userID int) string {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, newClaims)
-	tokenString, _ := token.SignedString(jwtKey)
+	tokenString, _ := token.SignedString([]byte(setting.Config.JwtKey))
 	return tokenString
 }
 
 func ParseToken(token string) *Claims {
 	var newClaims = new(Claims)
 	tmpToken, err := jwt.ParseWithClaims(token, newClaims, func(token *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
+		return []byte(setting.Config.JwtKey), nil
 	})
 	if err != nil {
 		return nil
