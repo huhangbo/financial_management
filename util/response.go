@@ -11,7 +11,7 @@ import (
 func Response(ctx *gin.Context, code int, data any) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"code":    code,
-		"message": consts.ResponseCode2Msg,
+		"message": consts.ResponseCode2Msg[code],
 		"data":    data,
 	})
 }

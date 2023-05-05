@@ -48,7 +48,7 @@ func GetUserByTelephone(telephone int) *model.User {
 		db   = setting.GetMySQL()
 		user *model.User
 	)
-	if err := db.Where("telephone = ?", telephone).First(&user); err != nil {
+	if err := db.Where("telephone = ?", telephone).First(&user).Error; err != nil {
 		return nil
 	}
 	return user
@@ -61,7 +61,7 @@ func GetUserByID(userID int) *model.User {
 			UserID: userID,
 		}
 	)
-	if err := db.First(&user); err != nil {
+	if err := db.First(&user).Error; err != nil {
 		return nil
 	}
 	return user
@@ -72,7 +72,7 @@ func IsUserExist(telephone int) bool {
 		db   = setting.GetMySQL()
 		user *model.User
 	)
-	if err := db.Where("telephone = ?", telephone).First(&user); err != nil {
+	if err := db.Where("telephone = ?", telephone).First(&user).Error; err != nil {
 		return false
 	}
 	return true

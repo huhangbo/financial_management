@@ -47,4 +47,5 @@ func LoadConfig(path string) {
 	if err != nil {
 		log.Panicln("decode config file failed:", string(buf), err)
 	}
+	InitMysql(Config.SqlConfig)
 }
