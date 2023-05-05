@@ -4,14 +4,14 @@
   "port": 8888,
   "jwt_key": "test",
   "log_config": {
-    "path": ""
+    "path": "log/gin.log"
   },
   "mysql_config": {
     "host": "127.0.0.1",
     "port": 3306,
     "user": "root",
     "db": "financial_management",
-    "password": "123456"
+    "password": "Flying!=0"
   },
   "admin": {
     "id": 123,
