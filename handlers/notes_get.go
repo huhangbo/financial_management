@@ -21,14 +21,15 @@ type NotesGetResp struct {
 
 func NotesGet(c *gin.Context) {
 	var (
-		req  *NotesGetReq
-		resp = &NotesGetResp{}
+		req    *NotesGetReq
+		resp   = &NotesGetResp{}
+		userID = c.GetInt(consts.UserID)
 	)
 	if err := c.BindJSON(&req); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	notesList := service.GetNotesList(c.GetInt(consts.UserID), req.Offset, req.Limit+1)
+	notesList := service.GetNotesList(userID, req.Offset, req.Limit+1)
 	if notesList == nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return

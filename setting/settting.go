@@ -29,8 +29,8 @@ type MySQLConfig struct {
 }
 
 type AdminConf struct {
-	ID       int    `json:"ID"`
-	Password string `json:"Password"`
+	ID       int    `json:"id"`
+	Password string `json:"password"`
 }
 
 var (

@@ -3,7 +3,7 @@ package model
 import "time"
 
 type News struct {
-	NewsID    int       `json:"news_id"`
+	NewsID    int       `json:"news_id" gorm:"primaryKey"`
 	UserID    int       `json:"user_id"`
 	Title     string    `json:"title"`
 	Detail    string    `json:"detail"`

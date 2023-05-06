@@ -65,7 +65,7 @@ func GetNotesList(userID int, offset int, limit int) []*model.Notes {
 		db        = setting.GetMySQL()
 		notesList []*model.Notes
 	)
-	if err := db.Where("user_id = ?", userID).Find(&notesList).Order("creat_at desc").Offset(offset).Limit(limit).Error; err != nil {
+	if err := db.Where("user_id = ?", userID).Find(&notesList).Order("created_at desc").Offset(offset).Limit(limit).Error; err != nil {
 		return nil
 	}
 	return notesList

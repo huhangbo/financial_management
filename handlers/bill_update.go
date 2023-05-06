@@ -31,6 +31,8 @@ func BillUpdate(c *gin.Context) {
 	tmpBill.CategoryID = reqBill.CategoryID
 	tmpBill.Fee = reqBill.Fee
 	tmpBill.Remark = reqBill.Remark
+	tmpBill.Year = reqBill.Year
+	tmpBill.Mouth = reqBill.Mouth
 	if err := service.UpdateBill(tmpBill); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return

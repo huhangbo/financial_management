@@ -28,8 +28,13 @@ func userGroup() {
 	{
 		group.POST("/register", handlers.UserRegister)
 		group.POST("/login", handlers.UserLogin)
-		group.POST("/update/password", handlers.UpdatePassword).Use(middleware.Auth())
-		group.POST("/update/info", handlers.UserUpdateInfo).Use(middleware.Auth())
+
+	}
+
+	update := group.Group("/update").Use(middleware.Auth())
+	{
+		update.POST("/password", handlers.UpdatePassword)
+		update.POST("/info", handlers.UserUpdateInfo)
 	}
 }
 
@@ -37,11 +42,15 @@ func adminGroup() {
 	group := h.Group("/admin")
 	{
 		group.POST("/login", handlers.AdminLogin)
-		group.GET("/user/get", handlers.AdminGetUser).Use(middleware.Auth())
-		group.POST("/user/delete", handlers.AdminDeleteUser).Use(middleware.Auth())
-		group.POST("/user/add", handlers.AdminAddUser).Use(middleware.Auth())
-		group.POST("/user/update", handlers.UserUpdateInfo).Use(middleware.Auth())
-		group.POST("/user/password", handlers.UpdatePassword).Use(middleware.Auth())
+	}
+
+	user := group.Group("/user").Use(middleware.Auth())
+	{
+		user.GET("/get", handlers.AdminGetUser)
+		user.POST("/delete", handlers.AdminDeleteUser)
+		user.POST("/add", handlers.AdminAddUser)
+		user.POST("/update", handlers.UserUpdateInfo)
+		user.POST("/password", handlers.UpdatePassword)
 	}
 }
 
@@ -60,7 +69,7 @@ func billGroup() {
 	group := h.Group("/bill")
 	group.Use(middleware.Auth())
 	{
-		group.POST("/get", handlers.BillGet)
+		group.POST("/list", handlers.BillGet)
 		group.POST("/add", handlers.BillRecord)
 		group.POST("/delete", handlers.BillDelete)
 		group.POST("/update", handlers.BillUpdate)
@@ -82,7 +91,7 @@ func notesGroup() {
 	group := h.Group("/notes")
 	group.Use(middleware.Auth())
 	{
-		group.POST("/get", handlers.NotesGet)
+		group.POST("/list", handlers.NotesGet)
 		group.POST("/add", handlers.NotesAdd)
 		group.POST("/update", handlers.NotesUpdate)
 		group.POST("/delete", handlers.NotesDelete)
@@ -93,7 +102,7 @@ func newsGroup() {
 	group := h.Group("/news")
 	group.Use(middleware.Auth())
 	{
-		group.POST("/get", handlers.NewsGet)
+		group.POST("/list", handlers.NewsGet)
 		group.POST("/add", handlers.NewsAdd)
 		group.POST("/update", handlers.NewsUpdate)
 		group.POST("/delete", handlers.NewsDelete)

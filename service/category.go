@@ -8,11 +8,9 @@ import (
 func GetCategoryByID(categoryID int) *model.Category {
 	var (
 		db          = setting.GetMySQL()
-		tmpCategory = &model.Category{
-			CategoryID: categoryID,
-		}
+		tmpCategory *model.Category
 	)
-	if err := db.First(&tmpCategory).Error; err != nil {
+	if err := db.First(&tmpCategory, categoryID).Error; err != nil {
 		return nil
 	}
 	return tmpCategory

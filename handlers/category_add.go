@@ -14,11 +14,10 @@ func CategoryAdd(c *gin.Context) {
 		userID      = c.GetInt(consts.UserID)
 	)
 
-	if err := c.BindJSON(reqCategory); err != nil {
+	if err := c.BindJSON(&reqCategory); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	reqCategory.CategoryID = util.GenID()
 	reqCategory.UserID = userID
 	if err := service.AddCategory(reqCategory); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)

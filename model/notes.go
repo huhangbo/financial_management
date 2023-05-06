@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Notes struct {
-	NotesID   int       `json:"notes_id"`
+	NotesID   int       `json:"notes_id" gorm:"primaryKey"`
 	UserID    int       `json:"user_id"`
 	Title     string    `json:"title"`
 	Detail    string    `json:"detail"`

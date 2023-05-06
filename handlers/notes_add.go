@@ -11,12 +11,13 @@ import (
 func NotesAdd(c *gin.Context) {
 	var (
 		tmpNotes *model.Notes
+		userID   = c.GetInt(consts.UserID)
 	)
 	if err := c.BindJSON(&tmpNotes); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-
+	tmpNotes.UserID = userID
 	if err := service.AddNotes(tmpNotes); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return

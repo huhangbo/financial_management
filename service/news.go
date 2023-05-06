@@ -39,11 +39,9 @@ func UpdateNews(news *model.News) error {
 func GetNewsByID(newsID int) *model.News {
 	var (
 		db      = setting.GetMySQL()
-		tmpNews = &model.News{
-			NewsID: newsID,
-		}
+		tmpNews *model.News
 	)
-	if err := db.First(&tmpNews).Error; err != nil {
+	if err := db.First(&tmpNews, newsID).Error; err != nil {
 		return nil
 	}
 	return tmpNews

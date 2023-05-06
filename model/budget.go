@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Budget struct {
-	BudgetId  int       `json:"budget_id"`
+	BudgetId  int       `json:"budget_id" gorm:"primaryKey"`
 	Fee       int       `json:"fee"`
 	UserID    int       `json:"user_id"`
 	Year      int       `json:"year"`

@@ -11,6 +11,7 @@ import (
 func NewsUpdate(c *gin.Context) {
 	var (
 		reqNews *model.News
+		userID  = c.GetInt(consts.UserID)
 	)
 	if err := c.BindJSON(&reqNews); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
@@ -21,7 +22,7 @@ func NewsUpdate(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	if tmpNews.UserID != c.GetInt(consts.UserID) {
+	if tmpNews.UserID != userID {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}

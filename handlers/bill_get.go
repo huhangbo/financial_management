@@ -6,19 +6,14 @@ import (
 	"financial_management/service"
 	"financial_management/util"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 type BillGetReq struct {
-	BillType   model.BillType `json:"bill_type"`
-	BeginYear  int            `json:"begin_year"`
-	BeginMouth int            `json:"begin_mouth"`
-	BeginDay   int            `json:"begin_day"`
-	EndYear    int            `json:"end_year"`
-	EndMouth   int            `json:"end_mouth"`
-	EndDay     int            `json:"end_day"`
-	Page       int            `json:"page"`
-	Limit      int            `json:"limit"`
+	BillType model.BillType `json:"bill_type"`
+	Year     int            `json:"year"`
+	Mouth    int            `json:"mouth"`
+	Page     int            `json:"page"`
+	Limit    int            `json:"limit"`
 }
 
 type BillGetResp struct {
@@ -36,26 +31,25 @@ func BillGet(c *gin.Context) {
 		categoryIDs  []int
 		word         = c.Query("word")
 		err          error
+		userID       = c.GetInt(consts.UserID)
 	)
 	if err := c.BindJSON(&req); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
 
-	beginTime := time.Date(req.BeginYear, time.Month(req.BeginMouth), req.BeginDay, 0, 0, 0, 0, nil)
-	endTime := time.Date(req.EndYear, time.Month(req.EndMouth), req.EndDay, 0, 0, 0, 0, nil)
 	if req.BillType == 0 {
 		billTypeList = []model.BillType{model.Expend, model.Income}
 	} else {
 		billTypeList = append(billTypeList, req.BillType)
 	}
 	if len(word) == 0 {
-		billList, err = service.GetBillByTime(billTypeList, beginTime, endTime, req.Page, req.Limit)
+		billList, err = service.GetBillByTime(billTypeList, userID, req.Year, req.Mouth, req.Page, req.Limit)
 	} else {
-		billList, err = service.SearchBillByTime(billTypeList, word, beginTime, endTime, req.Page, req.Limit)
+		billList, err = service.SearchBillByTime(billTypeList, word, userID, req.Year, req.Mouth, req.Page, req.Limit)
 	}
 
-	count := service.GetBillCount(billTypeList, beginTime, endTime)
+	count := service.GetBillCount(billTypeList, userID, req.Year, req.Mouth)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return

@@ -3,7 +3,6 @@ package service
 import (
 	"financial_management/model"
 	"financial_management/setting"
-	"time"
 )
 
 func AddBill(bill *model.Bill) error {
@@ -51,39 +50,37 @@ func GetBillByIDs(billIDs []int) []*model.Bill {
 func GetBillByID(billID int) *model.Bill {
 	var (
 		db      = setting.GetMySQL()
-		tmpBill = &model.Bill{
-			BillID: billID,
-		}
+		tmpBill *model.Bill
 	)
-	if err := db.First(&billID).Error; err != nil {
+	if err := db.First(&tmpBill, billID).Error; err != nil {
 		return nil
 	}
 	return tmpBill
 }
 
-func GetBillByTime(billTypeList []model.BillType, beginTime, endTime time.Time, page int, limit int) ([]*model.Bill, error) {
+func GetBillByTime(billTypeList []model.BillType, userID int, year int, mouth int, page int, limit int) ([]*model.Bill, error) {
 	var (
 		db       = setting.GetMySQL()
 		billList []*model.Bill
 	)
 	offset := (page - 1) * limit
-	if err := db.Where("bill_type IN ? AND creat_at Between ? AND ?", billTypeList, beginTime, endTime).Find(&billList).Limit(limit).Offset(offset).Error; err != nil {
+	if err := db.Where("bill_type IN ? AND user_id = ? AND year = ? AND mouth = ?", billTypeList, userID, year, mouth).Limit(limit).Offset(offset).Find(&billList).Error; err != nil {
 		return nil, err
 	}
 	return billList, nil
 }
 
-func GetBillCount(billTypeList []model.BillType, beginTime, endTime time.Time) int {
+func GetBillCount(billTypeList []model.BillType, userID int, year int, mouth int) int {
 	var (
 		db    = setting.GetMySQL()
 		count int64
 	)
-	if err := db.Model(&model.Bill{}).Where("bill_type IN ? AND creat_at Between ? AND ?", billTypeList, beginTime, endTime).Count(&count).Error; err != nil {
+	if err := db.Model(&model.Bill{}).Where("bill_type IN ? AND user_id = ? AND year = ? AND mouth = ?", billTypeList, userID, year, mouth).Count(&count).Error; err != nil {
 	}
 	return int(count)
 }
 
-func SearchBillByTime(billTypeList []model.BillType, word string, beginTime, endTime time.Time, page int, limit int) ([]*model.Bill, error) {
+func SearchBillByTime(billTypeList []model.BillType, word string, userID int, year int, mouth int, page int, limit int) ([]*model.Bill, error) {
 	var (
 		db       = setting.GetMySQL()
 		billList []*model.Bill
@@ -91,7 +88,7 @@ func SearchBillByTime(billTypeList []model.BillType, word string, beginTime, end
 	)
 
 	offset := (page - 1) * limit
-	if err := db.Where("remark LIKE ? AND bill_type IN ? AND creat_at Between ? AND ?", query, billTypeList, beginTime, endTime).Find(&billList).Limit(limit).Offset(offset).Error; err != nil {
+	if err := db.Where("bill_type IN ? AND user_id = ? AND year = ? AND mouth = ? AND remark LIKE ?", billTypeList, userID, year, mouth, query).Limit(limit).Offset(offset).Find(&billList).Error; err != nil {
 		return nil, err
 	}
 	return billList, nil

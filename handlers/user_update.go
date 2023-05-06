@@ -27,7 +27,7 @@ func UserUpdateInfo(c *gin.Context) {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
-	tmpUser.UserName = reqUser.UserName
+	tmpUser.Username = reqUser.Username
 	tmpUser.Gender = reqUser.Gender
 	tmpUser.Email = reqUser.Email
 	if err := service.UpdateUser(tmpUser); err != nil {

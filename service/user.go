@@ -3,6 +3,7 @@ package service
 import (
 	"financial_management/model"
 	"financial_management/setting"
+	"fmt"
 )
 
 func UpdateUser(user *model.User) error {
@@ -35,7 +36,7 @@ func GetAllUser(username string) []*model.User {
 		db.Find(&userList)
 	} else {
 		query := "%" + username + "%"
-		db.Where("username like = ?", query).Find(&userList)
+		db.Where(fmt.Sprintf("username LIKE %q", query)).Find(&userList)
 	}
 	if err := db.Find(&userList).Error; err != nil {
 		return nil

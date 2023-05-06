@@ -25,6 +25,7 @@ const (
 	PasswordErrorMsg   = "密码错误"
 	ParamErrorMsg      = "参数提交错误"
 	PermissionErrorMsg = "没有权限"
+	EmptyMsg           = "没有数据"
 )
 
 var (
@@ -39,5 +40,6 @@ var (
 		PasswordErrorCode:   PasswordErrorMsg,
 		ParamErrorCode:      ParamErrorMsg,
 		PermissionErrorCode: PermissionErrorMsg,
+		EmptyCode:           EmptyMsg,
 	}
 )

@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type BillType int8
+type BillType int
 
 const (
 	Expend BillType = 1
@@ -13,8 +13,10 @@ type Bill struct {
 	BillID     int       `json:"bill_id" gorm:"primaryKey"`
 	BillType   BillType  `json:"bill_type"`
 	UserID     int       `json:"user_id"`
-	Fee        int       `json:"fee"`
 	CategoryID int       `json:"category_id"`
+	Fee        int       `json:"fee"`
+	Year       int       `json:"year"`
+	Mouth      int       `json:"mouth"`
 	Remark     string    `json:"remark"`
 	Category   *Category `json:"category"`
 	CreatedAt  time.Time `json:"created_at"`
