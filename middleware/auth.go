@@ -26,7 +26,7 @@ func Auth() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		c.Set("user_id", claim.UserId)
+		c.Set(consts.UserID, claim.UserId)
 		return
 	}
 }

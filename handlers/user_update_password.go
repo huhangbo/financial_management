@@ -10,9 +10,9 @@ import (
 )
 
 type UpdatePasswordReq struct {
-	UserID      int
-	OldPassword *string
-	NewPassword string
+	UserID      int     `json:"user_id"`
+	OldPassword *string `json:"old_password"`
+	NewPassword string  `json:"new_password"`
 }
 
 func UpdatePassword(c *gin.Context) {
