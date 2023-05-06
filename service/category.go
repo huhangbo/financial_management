@@ -12,7 +12,7 @@ func GetCategoryByID(categoryID int) *model.Category {
 			CategoryID: categoryID,
 		}
 	)
-	if err := db.First(&tmpCategory); err != nil {
+	if err := db.First(&tmpCategory).Error; err != nil {
 		return nil
 	}
 	return tmpCategory

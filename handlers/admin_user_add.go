@@ -23,7 +23,10 @@ func AdminAddUser(c *gin.Context) {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
-
+	if service.IsUserExist(reqUser.Telephone) {
+		util.Response(c, consts.UserExistCode, nil)
+		return
+	}
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(reqUser.Password), bcrypt.DefaultCost)
 	reqUser.Password = string(hashPassword)
 

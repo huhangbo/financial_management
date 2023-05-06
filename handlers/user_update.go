@@ -28,7 +28,6 @@ func UserUpdateInfo(c *gin.Context) {
 		return
 	}
 	tmpUser.UserName = reqUser.UserName
-	tmpUser.Telephone = reqUser.Telephone
 	tmpUser.Gender = reqUser.Gender
 	tmpUser.Email = reqUser.Email
 	if err := service.UpdateUser(tmpUser); err != nil {
