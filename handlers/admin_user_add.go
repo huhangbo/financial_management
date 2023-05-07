@@ -35,6 +35,12 @@ func AdminAddUser(c *gin.Context) {
 		return
 	}
 
-	util.Response(c, consts.SuccessCode, nil)
+	tmpUser := service.GetUserByTelephone(reqUser.Telephone)
+	if tmpUser == nil {
+		util.Response(c, consts.SystemErrorCode, nil)
+		return
+	}
+
+	util.Response(c, consts.SuccessCode, tmpUser)
 
 }
