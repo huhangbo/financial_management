@@ -26,6 +26,7 @@ func initRouter() {
 func userGroup() {
 	group := h.Group("/user")
 	{
+		group.GET("/info", handlers.UserInfoGet)
 		group.POST("/register", handlers.UserRegister)
 		group.POST("/login", handlers.UserLogin)
 
@@ -91,7 +92,7 @@ func notesGroup() {
 	group := h.Group("/notes")
 	group.Use(middleware.Auth())
 	{
-		group.POST("/list", handlers.NotesGet)
+		group.GET("/list", handlers.NotesGet)
 		group.POST("/add", handlers.NotesAdd)
 		group.POST("/update", handlers.NotesUpdate)
 		group.POST("/delete", handlers.NotesDelete)
@@ -102,7 +103,7 @@ func newsGroup() {
 	group := h.Group("/news")
 	group.Use(middleware.Auth())
 	{
-		group.POST("/list", handlers.NewsGet)
+		group.GET("/list", handlers.NewsGet)
 		group.POST("/add", handlers.NewsAdd)
 		group.POST("/update", handlers.NewsUpdate)
 		group.POST("/delete", handlers.NewsDelete)

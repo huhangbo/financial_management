@@ -17,11 +17,11 @@ func AdminLogin(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	if reqUser.UserID != setting.Config.Admin.ID || reqUser.Password != setting.Config.Admin.Password {
+	if reqUser.Telephone != setting.Config.Admin.ID || reqUser.Password != setting.Config.Admin.Password {
 		util.Response(c, consts.PasswordErrorCode, nil)
 		return
 	}
-	token := middleware.GenerateToken(reqUser.UserID)
+	token := middleware.GenerateToken(reqUser.Telephone)
 	util.Response(c, consts.SuccessCode, gin.H{
 		"token": token,
 	})

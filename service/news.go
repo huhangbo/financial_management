@@ -58,12 +58,12 @@ func GetNewsByIDs(noteIDs []int) []*model.News {
 	return notesList
 }
 
-func GetNewsList(offset int, limit int) []*model.News {
+func GetNewsList() []*model.News {
 	var (
 		db        = setting.GetMySQL()
 		notesList []*model.News
 	)
-	if err := db.Find(&notesList).Order("creat_at desc").Offset(offset).Limit(limit).Error; err != nil {
+	if err := db.Find(&notesList).Order("creat_at desc").Error; err != nil {
 		return nil
 	}
 	return notesList
