@@ -16,7 +16,7 @@ type Bill struct {
 	CategoryID int       `json:"category_id"`
 	Fee        int       `json:"fee"`
 	Year       int       `json:"year"`
-	Mouth      int       `json:"mouth"`
+	Month      int       `json:"month"`
 	Remark     string    `json:"remark"`
 	Category   *Category `json:"category"`
 	CreatedAt  time.Time `json:"created_at"`

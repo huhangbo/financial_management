@@ -16,7 +16,7 @@ func BudgetGet(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	tmpBudget := service.GetBudgetByUserID(c.GetInt(consts.UserID), reqBudget.Year, reqBudget.Mouth)
+	tmpBudget := service.GetBudgetByUserID(c.GetInt(consts.UserID), reqBudget.Year, reqBudget.Month)
 	if tmpBudget == nil {
 		util.Response(c, consts.EmptyCode, nil)
 		return

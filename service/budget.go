@@ -52,7 +52,7 @@ func GetBudgetByID(budgetID int) *model.Budget {
 	return tmpBudget
 }
 
-func GetBudgetByUserID(userID, year, mouth int) *model.Budget {
+func GetBudgetByUserID(userID, year, month int) *model.Budget {
 	var (
 		db        = setting.GetMySQL()
 		tmpBudget = &model.Budget{}
@@ -60,7 +60,7 @@ func GetBudgetByUserID(userID, year, mouth int) *model.Budget {
 	if err := db.Where(&model.Budget{
 		UserID: userID,
 		Year:   year,
-		Mouth:  mouth,
+		Month:  month,
 	},
 	).First(&tmpBudget).Error; err != nil {
 		return nil

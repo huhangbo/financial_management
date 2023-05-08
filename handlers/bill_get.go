@@ -9,11 +9,11 @@ import (
 )
 
 type BillGetReq struct {
-	BillType model.BillType `json:"bill_type"`
-	Year     int            `json:"year"`
-	Mouth    int            `json:"mouth"`
-	Page     int            `json:"page"`
-	Limit    int            `json:"limit"`
+	BillType  model.BillType `json:"bill_type"`
+	Year      int            `json:"year"`
+	Month     int            `json:"month"`
+	BeginTime int            `json:"begin_time"`
+	EndTime   int            `json:"end_time"`
 }
 
 type BillGetResp struct {
@@ -24,8 +24,8 @@ type BillGetResp struct {
 
 func BillGet(c *gin.Context) {
 	var (
-		req          *BillGetReq
-		resp         = &BillGetResp{}
+		req *BillGetReq
+		//resp         = &BillGetResp{}
 		billTypeList []model.BillType
 		billList     []*model.Bill
 		categoryIDs  []int
@@ -43,13 +43,18 @@ func BillGet(c *gin.Context) {
 	} else {
 		billTypeList = append(billTypeList, req.BillType)
 	}
-	if len(word) == 0 {
-		billList, err = service.GetBillByTime(billTypeList, userID, req.Year, req.Mouth, req.Page, req.Limit)
-	} else {
-		billList, err = service.SearchBillByTime(billTypeList, word, userID, req.Year, req.Mouth, req.Page, req.Limit)
+
+	if req.BeginTime == 0 && req.EndTime == 0 {
+
 	}
 
-	count := service.GetBillCount(billTypeList, userID, req.Year, req.Mouth)
+	if req.Month == 0 && req.Year == 0 {
+		billList, err = service.GetUserBill(billTypeList, userID)
+	} else if len(word) == 0 {
+		billList, err = service.GetBillByMonth(billTypeList, userID, req.Year, req.Month)
+	}
+
+	//count := service.GetBillCount(billTypeList, userID, req.Year, req.Month)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
@@ -65,8 +70,8 @@ func BillGet(c *gin.Context) {
 	for _, bill := range billList {
 		bill.Category = categoryMap[bill.CategoryID]
 	}
-	resp.BillList = billList
-	resp.Total = count
-	resp.TotalPage = (count-1)/req.Limit + 1
-	util.Response(c, consts.SuccessCode, resp)
+	//resp.BillList = billList
+	//resp.Total = count
+	//resp.TotalPage = (count-1)/req.Limit + 1
+	util.Response(c, consts.SuccessCode, billList)
 }

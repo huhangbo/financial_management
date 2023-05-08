@@ -7,7 +7,7 @@ type Budget struct {
 	Fee       int       `json:"fee"`
 	UserID    int       `json:"user_id"`
 	Year      int       `json:"year"`
-	Mouth     int       `json:"mouth"`
+	Month     int       `json:"month"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

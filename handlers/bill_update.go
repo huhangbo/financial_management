@@ -32,7 +32,7 @@ func BillUpdate(c *gin.Context) {
 	tmpBill.Fee = reqBill.Fee
 	tmpBill.Remark = reqBill.Remark
 	tmpBill.Year = reqBill.Year
-	tmpBill.Mouth = reqBill.Mouth
+	tmpBill.Month = reqBill.Month
 	if err := service.UpdateBill(tmpBill); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
