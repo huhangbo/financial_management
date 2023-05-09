@@ -24,12 +24,10 @@ type BillGetResp struct {
 
 func BillGet(c *gin.Context) {
 	var (
-		req *BillGetReq
-		//resp         = &BillGetResp{}
+		req          *BillGetReq
 		billTypeList []model.BillType
 		billList     []*model.Bill
 		categoryIDs  []int
-		word         = c.Query("word")
 		err          error
 		userID       = c.GetInt(consts.UserID)
 	)
@@ -44,31 +42,31 @@ func BillGet(c *gin.Context) {
 		billTypeList = append(billTypeList, req.BillType)
 	}
 
-	if req.BeginTime == 0 && req.EndTime == 0 {
-
-	}
-
 	if req.Month == 0 && req.Year == 0 {
 		billList, err = service.GetUserBill(billTypeList, userID)
-	} else if len(word) == 0 {
+	} else {
 		billList, err = service.GetBillByMonth(billTypeList, userID, req.Year, req.Month)
 	}
 
-	//count := service.GetBillCount(billTypeList, userID, req.Year, req.Month)
 	if err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
 	for _, bill := range billList {
+		if bill.CategoryID == 0 {
+			continue
+		}
 		categoryIDs = append(categoryIDs, bill.CategoryID)
 	}
-	categoryMap, err := service.MGetCategory(categoryIDs)
-	if err != nil {
-		util.Response(c, consts.SystemErrorCode, nil)
-		return
-	}
-	for _, bill := range billList {
-		bill.Category = categoryMap[bill.CategoryID]
+	if len(categoryIDs) != 0 {
+		categoryMap, err := service.MGetCategory(categoryIDs)
+		if err != nil {
+			util.Response(c, consts.SystemErrorCode, nil)
+			return
+		}
+		for _, bill := range billList {
+			bill.Category = categoryMap[bill.CategoryID]
+		}
 	}
 	//resp.BillList = billList
 	//resp.Total = count

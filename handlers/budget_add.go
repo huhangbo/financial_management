@@ -10,16 +10,21 @@ import (
 
 func BudgetAdd(c *gin.Context) {
 	var (
-		tmpBudget *model.Budget
+		reqBudget *model.Budget
 	)
-	if err := c.BindJSON(&tmpBudget); err != nil {
+	if err := c.BindJSON(&reqBudget); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	tmpBudget.UserID = c.GetInt(consts.UserID)
-	if err := service.AddBudget(tmpBudget); err != nil {
+	reqBudget.UserID = c.GetInt(consts.UserID)
+	if err := service.AddBudget(reqBudget); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
-	util.Response(c, consts.SuccessCode, nil)
+	respBudget := service.GetBudgetByUserID(c.GetInt(consts.UserID), reqBudget.Year, reqBudget.Month)
+	if reqBudget == nil {
+		util.Response(c, consts.SystemErrorCode, nil)
+		return
+	}
+	util.Response(c, consts.SuccessCode, respBudget)
 }

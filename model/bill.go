@@ -17,6 +17,7 @@ type Bill struct {
 	Fee        int       `json:"fee"`
 	Year       int       `json:"year"`
 	Month      int       `json:"month"`
+	Day        int       `json:"day"`
 	Remark     string    `json:"remark"`
 	Category   *Category `json:"category"`
 	CreatedAt  time.Time `json:"created_at"`

@@ -10,7 +10,7 @@ import (
 )
 
 type UpdatePasswordReq struct {
-	UserID      int     `json:"user_id"`
+	Telephone   int     `json:"telephone"`
 	OldPassword *string `json:"old_password"`
 	NewPassword string  `json:"new_password"`
 }
@@ -24,10 +24,10 @@ func UpdatePassword(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	tmpUser := service.GetUserByID(req.UserID)
+	tmpUser := service.GetUserByTelephone(req.Telephone)
 
 	if uid != setting.Config.Admin.ID {
-		if uid != req.UserID {
+		if uid != tmpUser.UserID {
 			util.Response(c, consts.PermissionErrorCode, nil)
 			return
 		}

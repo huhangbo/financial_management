@@ -34,5 +34,5 @@ func UserUpdateInfo(c *gin.Context) {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
-	util.Response(c, consts.SuccessCode, nil)
+	util.Response(c, consts.SuccessCode, tmpUser)
 }

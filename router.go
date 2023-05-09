@@ -74,6 +74,7 @@ func billGroup() {
 		group.POST("/add", handlers.BillRecord)
 		group.POST("/delete", handlers.BillDelete)
 		group.POST("/update", handlers.BillUpdate)
+		group.POST("/statistic", handlers.BillStatistic)
 	}
 }
 
