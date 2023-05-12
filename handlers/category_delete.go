@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"financial_management/consts"
-	"financial_management/model"
 	"financial_management/service"
 	"financial_management/setting"
 	"financial_management/util"
@@ -11,16 +10,11 @@ import (
 
 func CategoryDelete(c *gin.Context) {
 	var (
-		tmpCategory *model.Category
+		categoryIDs []int
 		userID      = c.GetInt(consts.UserID)
 	)
 	// 参数校验
-	if err := c.BindJSON(&tmpCategory); err != nil {
-		util.Response(c, consts.ParamErrorCode, nil)
-		return
-	}
-	tmpCategory = service.GetCategoryByID(tmpCategory.CategoryID)
-	if tmpCategory == nil {
+	if err := c.BindJSON(&categoryIDs); err != nil {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
@@ -29,7 +23,14 @@ func CategoryDelete(c *gin.Context) {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
-	if err := service.DeleteCategoryByID(tmpCategory.CategoryID); err != nil {
+
+	_, err := service.MGetCategory(categoryIDs)
+	if err != nil {
+		util.Response(c, consts.ParamErrorCode, nil)
+		return
+	}
+
+	if err := service.DeleteCategory(categoryIDs); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}

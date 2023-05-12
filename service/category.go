@@ -54,14 +54,12 @@ func AddCategory(category *model.Category) error {
 	return nil
 }
 
-func DeleteCategoryByID(categoryID int) error {
+func DeleteCategory(categoryIDs []int) error {
 	var (
-		db          = setting.GetMySQL()
-		tmpCategory = &model.Category{
-			CategoryID: categoryID,
-		}
+		db           = setting.GetMySQL()
+		categoryList []*model.Category
 	)
-	if err := db.Delete(&tmpCategory).Error; err != nil {
+	if err := db.Delete(&categoryList, categoryIDs).Error; err != nil {
 		return err
 	}
 	return nil
