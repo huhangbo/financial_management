@@ -27,6 +27,7 @@ func NotesUpdate(c *gin.Context) {
 	}
 	tmpNotes.Title = reqNotes.Title
 	tmpNotes.Detail = reqNotes.Detail
+	tmpNotes.Place = reqNotes.Place
 	if err := service.UpdateNotes(tmpNotes); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
