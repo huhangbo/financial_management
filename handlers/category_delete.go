@@ -4,6 +4,7 @@ import (
 	"financial_management/consts"
 	"financial_management/model"
 	"financial_management/service"
+	"financial_management/setting"
 	"financial_management/util"
 	"github.com/gin-gonic/gin"
 )
@@ -23,8 +24,8 @@ func CategoryDelete(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-	// 非本人操作，无权限
-	if tmpCategory.UserID != userID {
+	// 非管理员操作无权限
+	if userID != setting.Config.Admin.ID {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}

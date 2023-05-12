@@ -4,6 +4,7 @@ import (
 	"financial_management/consts"
 	"financial_management/model"
 	"financial_management/service"
+	"financial_management/setting"
 	"financial_management/util"
 	"github.com/gin-gonic/gin"
 )
@@ -17,13 +18,13 @@ func NewsUpdate(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
+	if userID != setting.Config.Admin.ID {
+		util.Response(c, consts.PermissionErrorCode, nil)
+		return
+	}
 	tmpNews := service.GetNewsByID(reqNews.NewsID)
 	if tmpNews == nil {
 		util.Response(c, consts.ParamErrorCode, nil)
-		return
-	}
-	if tmpNews.UserID != userID {
-		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
 	tmpNews.Title = reqNews.Title

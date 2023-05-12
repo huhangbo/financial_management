@@ -18,12 +18,10 @@ func NewsAdd(c *gin.Context) {
 		util.Response(c, consts.ParamErrorCode, nil)
 		return
 	}
-
 	if userID != setting.Config.Admin.ID {
 		util.Response(c, consts.PermissionErrorCode, nil)
 		return
 	}
-	tmpNews.UserID = userID
 	if err := service.AddNews(tmpNews); err != nil {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
