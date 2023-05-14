@@ -93,7 +93,7 @@ func BillStatistic(c *gin.Context) {
 			tmpStatistic[i].BillTypeName, tmpStatistic[i+dayNum].BillTypeName = billTypeNameMap[model.Expend], billTypeNameMap[model.Income]
 			tmpStatistic[i].Day, tmpStatistic[i+dayNum].Day = i+1, i+1
 			for _, item := range tmpBillList {
-				if item.CreatedAt.Day() == i {
+				if item.Day == i {
 					if item.BillType == model.Expend {
 						tmpStatistic[i].Fee += item.Fee
 					} else {

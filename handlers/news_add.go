@@ -26,5 +26,10 @@ func NewsAdd(c *gin.Context) {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
-	util.Response(c, consts.SuccessCode, nil)
+	respNews := service.GetLastNews()
+	if respNews == nil {
+		util.Response(c, consts.SystemErrorCode, nil)
+		return
+	}
+	util.Response(c, consts.SuccessCode, respNews)
 }

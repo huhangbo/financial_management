@@ -68,3 +68,14 @@ func GetNewsList() []*model.News {
 	}
 	return notesList
 }
+
+func GetLastNews() *model.News {
+	var (
+		db      = setting.GetMySQL()
+		tmpNews *model.News
+	)
+	if err := db.Last(&tmpNews).Error; err != nil {
+		return nil
+	}
+	return tmpNews
+}

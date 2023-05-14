@@ -27,5 +27,10 @@ func CategoryAdd(c *gin.Context) {
 		util.Response(c, consts.SystemErrorCode, nil)
 		return
 	}
-	util.Response(c, consts.SuccessCode, nil)
+	lastCategory := service.GetLastCategory()
+	if lastCategory == nil {
+		util.Response(c, consts.SystemErrorCode, nil)
+		return
+	}
+	util.Response(c, consts.SuccessCode, lastCategory)
 }

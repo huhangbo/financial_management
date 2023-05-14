@@ -54,6 +54,17 @@ func AddCategory(category *model.Category) error {
 	return nil
 }
 
+func GetLastCategory() *model.Category {
+	var (
+		db          = setting.GetMySQL()
+		tmpCategory *model.Category
+	)
+	if err := db.Last(&tmpCategory).Error; err != nil {
+		return nil
+	}
+	return tmpCategory
+}
+
 func DeleteCategory(categoryIDs []int) error {
 	var (
 		db           = setting.GetMySQL()
